@@ -1,6 +1,7 @@
 import gdata.youtube
 import gdata.youtube.service
 import re
+from modules.youtube.youtube_creds import yCREDS
 
 # Video examples for testing. Phennybot's framework
 # does not support REGEX grouping, so I've implimented
@@ -14,6 +15,9 @@ import re
 
 # standard video example
 # http://www.youtube.com/watch?v=cHN_HR-9-R4
+
+# instanciates an instance of your youtubecredentials
+creds = yCREDS
 
 # strips a string of html entities
 def reformat(temp):
@@ -62,10 +66,10 @@ def say_title(phenny, input):
     
     # opens the ytb service
     yt_service = gdata.youtube.service.YouTubeService()
-
-    # authorize - you need to sign up for your own access key, or be rate-limited
-    yt_service.developer_key = 'yourdevkey'
-    yt_service.client_id = 'yourclientid'
+	
+	# authorize - you need to sign up for your own access key, or be rate-limited
+	yt_service.developer_key = creds.DEV_KEY
+	yt_service.client_id = creds.CLINET_ID
     
     # for testing regex groups from input
     # print input.groups()[1]
