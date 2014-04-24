@@ -64,8 +64,8 @@ def say_title(phenny, input):
     yt_service = gdata.youtube.service.YouTubeService()
 
     # authorize - you need to sign up for your own access key, or be rate-limited
-    yt_service.developer_key = 'AIzaSyCmp1cIUcfdKA_11oHEFuoEwhoJHN_SmHc'
-    yt_service.client_id = '1026226105500.apps.googleusercontent.com'
+    yt_service.developer_key = 'yourdevkey'
+    yt_service.client_id = 'yourclientid'
     
     # for testing regex groups from input
     # print input.groups()[1]
