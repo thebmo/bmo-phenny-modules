@@ -20,8 +20,12 @@ update the class reddit\reddit/py with your own information. no alteration of th
 Dependancies
 ============
 
+youtube.py
+----------
+gdata (google data api - pip install gdata)
+
 reddit_post.py
 --------------
-praw (reddit api wrapper)<br>
-beautifulsoup4 (html parser)
+praw (reddit api wrapper - pip install praw)<br>
+beautifulsoup4 (html parser - pip install beautifulsoup4)
 
