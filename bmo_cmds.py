@@ -17,7 +17,12 @@ def leave_chan(phenny,  input):
 leave_chan.commands = ['leave']
 leave_chan.priority = 'medium'
 
-
+# drama to diarrhea
+def diarrama(phenny, input):
+    # g = input.nick + ": " + input.groups()[1]
+    # phenny.say(g)
+    phenny.say('%s: *diarrhea' % input.nick)
+diarrama.rule = r'^(.*?)(\b[dD][rR][aA][mM][aA]\b)(.*)$'
     
 def group_test(phenny, input):
     phenny.say(input.groups()[1])

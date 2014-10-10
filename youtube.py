@@ -64,12 +64,12 @@ def get_duration(duration):
 # main phenny call
 def say_title(phenny, input):
     
-    # opens the ytb service
+    # opens the youtube service
     yt_service = gdata.youtube.service.YouTubeService()
 	
-	# authorize - you need to sign up for your own access key, or be rate-limited
-	yt_service.developer_key = creds.DEV_KEY
-	yt_service.client_id = creds.CLINET_ID
+    # authorize - you need to sign up for your own access key, or be rate-limited
+    yt_service.developer_key = creds.DEV_KEY
+    yt_service.client_id = creds.CLIENT_ID
     
     # for testing regex groups from input
     # print input.groups()[1]

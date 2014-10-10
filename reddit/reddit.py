@@ -4,20 +4,20 @@
 class RedditCreds:
     
     # user creds and blacklist
-    USER = 'your username'
-    PASS = 'your password'
-    BLACK_LIST = ['blacklistdomain.com']
+    USER = 'JujuTheDog'
+    PASS = 'qazwert$0369'
+    BLACK_LIST = ['gyazo.com', 'whiteboard.wheresthepart.at', 'dropbox', 'ejohn.org']
     
     # reddit api key
-    api_key = 'yourapikey'
+    api_key = 'N4pMshxY3jRTfmBuFHJGBvsp67o'
     
     # # api dev keys
-    client_secret ='yourclientsecret'
-    client_id = 'yourclientid'
+    client_secret ='onjVXgYW3oan2gos_PwtHtxegEo'
+    client_id = 'T3UOEWO5sM4JMw'
     redirect_uri = 'http://127.0.0.1:65010/authorize_callback'
     
     # posting test info
-    subreddit = 'your subreddit to post'
+    subreddit = 'wtpa'
 
     # user agent info
-    user_agent = 'this is a string to explain what your bot does so it doesnt get banned'
+    user_agent = 'This bot uses praw to upload links to reddit from WTPA'

@@ -1,2 +1,4 @@
 reddit/reddit.py
 youtube/youtube_creds.py
+*.pyc
+reddit/*

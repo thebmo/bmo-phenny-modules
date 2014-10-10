@@ -126,7 +126,12 @@ def link_catch(phenny, input):
                 # for testing
                 # phenny.say(post_title) # says post string
                 # phenny.say(link)      # says actual link
-                redditPOST(USER, PASS, user_agent, subreddit, post_title, link)
+                
+                # this is the actuall posting. put error handling here
+                try:
+                    redditPOST(USER, PASS, user_agent, subreddit, post_title, link)
+                except:
+                    pass
             else:
                 print 'failed: ' + link
         
