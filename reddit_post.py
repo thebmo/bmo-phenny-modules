@@ -2,7 +2,7 @@ import re, praw, webbrowser, urllib2
 from urlparse import urlparse
 from datetime import datetime
 from bs4 import BeautifulSoup
-from modules.reddit.reddit import RedditCreds
+from modules.reddit.Reddit_Creds import RedditCreds
 
 # *******
 # GLOBALS
@@ -27,6 +27,7 @@ subreddit = creds.subreddit
 # user agent info
 user_agent = creds.user_agent
 
+
 # *********
 # FUNCTIONS
 # *********
@@ -44,9 +45,11 @@ def getAuthToken(r):
     url = r.get_authorize_url('uniqueKey', 'identity', True)
     webbrowser.open(url)
 
+
 # refresshes AuthToken
 def refresh_access(r):
     r.refresh_access_information(access_information['refresh_token'])
+
 
 # fetches and returns the links title
 def getTitle(url):
@@ -62,8 +65,10 @@ def getTitle(url):
     if 'Gyazo' in title:
         title = 'Gayzo!'
     
-    return title.strip() + ' | '
+    return str(title.strip() + ' | ')  #<<<<<<<<<<<< added str encoding. maybe this will remove those errors
 
+    
+# Posts the params to /r/wtpa
 def redditPOST(USER, PASS, user_agent, subreddit, title, post_url):
     # creates the reddit obj
     r = praw.Reddit(user_agent)
@@ -78,7 +83,8 @@ def redditPOST(USER, PASS, user_agent, subreddit, title, post_url):
     # access_info = r.get_access_information(api_key)
     
     r.submit(subreddit, title, url=post_url)
-    
+
+
 # main phenny call
 def link_catch(phenny, input):
     
