@@ -1,3 +1,4 @@
+import random
 
 # joins a channel
 def chan_join(phenny, input):
@@ -54,6 +55,7 @@ def help(phenny, input):
         phenny.msg(input.nick, more)
 help.commands = ['help']
 help.priority = 'medium'
+
     
 if __name__ == '__main__': 
    print __doc__.strip()
