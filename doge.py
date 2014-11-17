@@ -9,13 +9,14 @@ def doge(phenny, input):
     # if 'http' not in s and ':' not in s:
     if 'http' not in s:
         s = s.lower()
-        good_tags = ['NN', 'NNS', 'VBG', 'VBP']
+        good_tags = ['NN', 'NNS', 'VBG', 'VBD'] #VBP?
         doges = ['many', 'much', 'such', 'so', 'no']
         words = []
         tokes = nltk.pos_tag(nltk.word_tokenize(s))
         
         # populates the word bank
         for word in tokes:
+            print word
             if word[1] in good_tags and len(word[0]) > 2 and '\'' not in word[0]:
                 words.append(str(word[0]))
         
