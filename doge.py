@@ -7,9 +7,11 @@ def doge(phenny, input):
     
     # doesn't execute if a link
     # if 'http' not in s and ':' not in s:
-    if 'http' not in s:
+    go = True if random.randrange(100) == 99 else False
+    if 'http' not in s and go:
         s = s.lower()
-        good_tags = ['NN', 'NNS', 'VBG', 'VBD'] #VBP?
+        good_tags = ['NN', 'VBG', 'VBN', 'NNS', 'VB'] # 'VBP', 'VBD'
+        bad_words = ['be', 'been', 'being', 'their', 'theirs', 'everything']
         doges = ['many', 'much', 'such', 'so', 'no']
         words = []
         tokes = nltk.pos_tag(nltk.word_tokenize(s))
@@ -17,11 +19,12 @@ def doge(phenny, input):
         # populates the word bank
         for word in tokes:
             print word
-            if word[1] in good_tags and len(word[0]) > 2 and '\'' not in word[0]:
+            if word[1] in good_tags and len(word[0]) > 2 and word[0] not in bad_words:
                 words.append(str(word[0]))
         
         # proceeds only if there are sufficient words
         if len(words) > 1:
+            
             # picks the 2 doge terms
             d1 = random.choice(doges)
             doges.remove(d1)
@@ -48,7 +51,8 @@ def doge(phenny, input):
             # prints the doge to irc
             for d in doge:
                 phenny.say(d)
-
+    else:
+        print 'go: %s' % go
 doge.rule = r'^(.*?)(.+\b.+)$'
 # doge.commands = ['doge']
     
