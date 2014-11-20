@@ -7,7 +7,7 @@ def doge(phenny, input):
     
     # doesn't execute if a link
     # if 'http' not in s and ':' not in s:
-    go = True if random.randrange(100) == 99 else False
+    go = True if random.randrange(200) == 199 else False
     if 'http' not in s and go:
         s = s.lower()
         good_tags = ['NN', 'VBG', 'VBN', 'NNS', 'VB'] # 'VBP', 'VBD'
@@ -51,8 +51,8 @@ def doge(phenny, input):
             # prints the doge to irc
             for d in doge:
                 phenny.say(d)
-    else:
-        print 'go: %s' % go
+    # else:
+        # print 'go: %s' % go
 doge.rule = r'^(.*?)(.+\b.+)$'
 # doge.commands = ['doge']
     
