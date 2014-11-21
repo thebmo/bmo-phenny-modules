@@ -7,7 +7,8 @@ def doge(phenny, input):
     
     # doesn't execute if a link
     # if 'http' not in s and ':' not in s:
-    go = True if random.randrange(200) == 199 else False
+    go = True if random.randrange(250) == 249 else False
+    # go = True # for testing, makes doge go every text entry
     if 'http' not in s and go:
         s = s.lower()
         good_tags = ['NN', 'VBG', 'VBN', 'NNS', 'VB'] # 'VBP', 'VBD'
@@ -43,10 +44,10 @@ def doge(phenny, input):
                         s[i] = ''.join((s[i], 'ing'))
 
             # builds out the doge strings into a list
-            doge = ['wow', '                 %s %s' % (d1, s[0]), '    %s %s' % (d2, s[1])]
+            doge = ['wow', '                 %s %s' % (d1, s[0]), '    %s %s' % (d2, s[1]), '                                    wow']
             
             # randomizes the order of the doge strings
-            random.shuffle(doge)
+            # random.shuffle(doge)
 
             # prints the doge to irc
             for d in doge:
