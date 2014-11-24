@@ -1,7 +1,7 @@
 import gdata.youtube
 import gdata.youtube.service
 import re
-from modules.youtube.youtube_creds import yCREDS
+from modules.youtube.You_Tube_Creds import yCREDS
 
 # Video examples for testing. Phennybot's framework
 # does not support REGEX grouping, so I've implimented
