@@ -1,24 +1,35 @@
 import random
 import nltk
 
+# says a doge into channel if input is not a link and
+# a random number is met. A % of the time
 def doge(phenny, input):
     
     s = input.groups()[1]
     
-    # doesn't execute if a link
     # if 'http' not in s and ':' not in s:
     go = True if random.randrange(250) == 249 else False
     # go = True # for testing, makes doge go every text entry
+    
+    # doesn't execute if a link or go statement unsatisfied.
     if 'http' not in s and go:
         s = s.lower()
+       
+        # good NLTK tags to use
         good_tags = ['NN', 'VBG', 'VBN', 'NNS', 'VB'] # 'VBP', 'VBD'
+        
+        # exception words to leave out
         bad_words = ['be', 'been', 'being', 'their', 'theirs', 'everything']
+        
+        # doge phrases to be selected by random below
         doges = ['many', 'much', 'such', 'so', 'no']
+
+        # populates the word bank
         words = []
         tokes = nltk.pos_tag(nltk.word_tokenize(s))
         
-        # populates the word bank
         for word in tokes:
+            # prints each token for testing purpose. helps to track doge output too
             print word
             if word[1] in good_tags and len(word[0]) > 2 and word[0] not in bad_words:
                 words.append(str(word[0]))
@@ -37,6 +48,7 @@ def doge(phenny, input):
             words.remove(s[0])
             s.append(random.choice(words))
             
+            # changes a word that ends in 'er' to 'ing'
             for i, word in enumerate(s):
                 if len(s) > 3:
                     if s[i][-2:] == 'er':
@@ -45,15 +57,11 @@ def doge(phenny, input):
 
             # builds out the doge strings into a list
             doge = ['wow', '                 %s %s' % (d1, s[0]), '    %s %s' % (d2, s[1]), '                                    wow']
-            
-            # randomizes the order of the doge strings
-            # random.shuffle(doge)
 
             # prints the doge to irc
             for d in doge:
                 phenny.say(d)
-    # else:
-        # print 'go: %s' % go
+
 doge.rule = r'^(.*?)(.+\b.+)$'
 # doge.commands = ['doge']
     
