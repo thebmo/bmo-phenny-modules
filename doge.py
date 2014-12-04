@@ -4,20 +4,20 @@ import nltk
 # says a doge into channel if input is not a link and
 # a random number is met. A % of the time
 def doge(phenny, input):
-    
+
     s = input.groups()[1]
-    
+
     # if 'http' not in s and ':' not in s:
     go = True if random.randrange(250) == 249 else False
     # go = True # for testing, makes doge go every text entry
-    
+
     # doesn't execute if a link or go statement unsatisfied.
     if 'http' not in s and go:
         s = s.lower()
-       
+
         # good NLTK tags to use
         good_tags = ['NN', 'VBG', 'VBN', 'NNS', 'VB'] # 'VBP', 'VBD'
-        
+
         # exception words to leave out
         bad_words = ['be', 'been', 'being', 'their', 'theirs', 'everything']
         
@@ -27,13 +27,13 @@ def doge(phenny, input):
         # populates the word bank
         words = []
         tokes = nltk.pos_tag(nltk.word_tokenize(s))
-        
+
         for word in tokes:
             # prints each token for testing purpose. helps to track doge output too
             print word
             if word[1] in good_tags and len(word[0]) > 2 and word[0] not in bad_words:
                 words.append(str(word[0]))
-        
+
         # proceeds only if there are sufficient words
         if len(words) > 1:
             
@@ -47,7 +47,7 @@ def doge(phenny, input):
             s.append(random.choice(words))
             words.remove(s[0])
             s.append(random.choice(words))
-            
+
             # changes a word that ends in 'er' to 'ing'
             for i, word in enumerate(s):
                 if len(s) > 3:
@@ -64,6 +64,6 @@ def doge(phenny, input):
 
 doge.rule = r'^(.*?)(.+\b.+)$'
 # doge.commands = ['doge']
-    
+
 if __name__ == '__main__': 
    print __doc__.strip()
