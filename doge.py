@@ -56,7 +56,12 @@ def doge(phenny, input):
                         s[i] = ''.join((s[i], 'ing'))
 
             # builds out the doge strings into a list
-            doge = ['wow', '                 %s %s' % (d1, s[0]), '    %s %s' % (d2, s[1]), '                                    wow']
+            doge = [
+                        'wow',
+                        '                 %s %s' % (d1, s[0]),
+                        '    %s %s' % (d2, s[1]),
+                        '                                    wow'
+                        ]
 
             # prints the doge to irc
             for d in doge:
