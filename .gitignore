@@ -1,3 +1,5 @@
 *.pyc
 reddit/*
 youtube/*
+reddit/Reddit_Creds.py
+youtube/You_Tube_Creds.py
