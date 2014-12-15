@@ -1,5 +1,14 @@
 import random
 
+
+# DAGON BE PRAISED
+def dagon(phenny, input):
+    if not input.admin: return
+    
+    phenny.say('DAGON BE PRAISED!!')
+
+dagon.rule = r'^(.*?)(\b[dD][aA][gG][oO][nN]\b)(.*)$'
+
 # joins a channel
 def chan_join(phenny, input):
     
@@ -14,7 +23,7 @@ chan_join.priority = 'medium'
 # leaves a channel
 def leave_chan(phenny,  input):
     if not input.admin: return
-    phenny.say('/leave')
+    phenny.write('/leave')
 leave_chan.commands = ['leave']
 leave_chan.priority = 'medium'
 
