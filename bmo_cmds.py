@@ -23,7 +23,8 @@ chan_join.priority = 'medium'
 # leaves a channel
 def leave_chan(phenny,  input):
     if not input.admin: return
-    phenny.write('/leave')
+    channel = input.groups()[1]
+    phenny.write(['PART'], channel)
 leave_chan.commands = ['leave']
 leave_chan.priority = 'medium'
 
