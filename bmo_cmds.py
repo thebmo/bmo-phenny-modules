@@ -9,6 +9,17 @@ def dagon(phenny, input):
 
 dagon.rule = r'^(.*?)(\b[dD][aA][gG][oO][nN]\b)(.*)$'
 
+
+# VIOLATION
+def violation(phenny, input):
+    
+    if len(str(input).split(' ')) > 2:
+        phenny.say("VIOLATION!")
+    else:
+        phenny.say(input)
+violation.rule = r'^(.*?)([vV][iI][oO][lL][aA][tT][iI][oO][nN])(.*)$'
+
+
 # joins a channel
 def chan_join(phenny, input):
     

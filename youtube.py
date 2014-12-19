@@ -3,6 +3,7 @@ import gdata.youtube.service
 import re
 from modules.youtube.You_Tube_Creds import yCREDS
 
+
 # Video examples for testing. Phennybot's framework
 # does not support REGEX grouping, so I've implimented
 # some conditional testing. These examples were very useful
@@ -78,42 +79,47 @@ def say_title(phenny, input):
     # sets url to trailing part of youtube URL string
     url = input.groups()[2]
     
-    # catches embed ex. #1
-    if re.search('embed/', url):
-        url = url.replace('embed/', '')
-        VideoID = url.replace('?rel=0', '')
-    
-    # catches embed ex. #2
-    elif re.search('player_embed', url):
-        VideoID = url.replace('watch?feature=player_embedded&v=', '')  
-    
-    # standard player url, checks for time bookmark &t=3m47s
-    else:
-        VideoID = url.replace('watch?v=', '')
-        if re.search('&', VideoID):
-            vid_temp = ''
-            for char in VideoID:
-                if char == '&':
-                    break
-                else:
-                    vid_temp += char
-            VideoID = vid_temp
-    
-    # builds the title string to passback to phenny
-    
-    # calls to the youtube api, returns object with all the metadata
-    entry  = yt_service.GetYouTubeVideoEntry(video_id=VideoID)
-    
-    # sets title to objs title property
-    title = reformat(entry.media.title.text)
-    
-    # sets duration as int from objs duration property
-    duration = int(entry.media.duration.seconds)
+    try:
+        # catches embed ex. #1
+        if re.search('embed/', url):
+            url = url.replace('embed/', '')
+            VideoID = url.replace('?rel=0', '')
+        
+        # catches embed ex. #2
+        elif re.search('player_embed', url):
+            VideoID = url.replace('watch?feature=player_embedded&v=', '')  
+        
+        # standard player url, checks for time bookmark &t=3m47s
+        else:
+            VideoID = url.replace('watch?v=', '')
+            if re.search('&', VideoID):
+                vid_temp = ''
+                for char in VideoID:
+                    if char == '&':
+                        break
+                    else:
+                        vid_temp += char
+                VideoID = vid_temp
+        
+        # builds the title string to passback to phenny
+        
+        # calls to the youtube api, returns object with all the metadata
+        entry  = yt_service.GetYouTubeVideoEntry(video_id=VideoID)
+        
+        # sets title to objs title property
+        title = reformat(entry.media.title.text)
+        
+        # sets duration as int from objs duration property
+        duration = int(entry.media.duration.seconds)
 
-    # adds duration to title string
-    title += get_duration(duration)
-    
-    phenny.say(title)
+        # adds duration to title string
+        title += get_duration(duration)
+        
+        phenny.say(title)
+        
+    except gdata.service.RequestError as e:
+        print 'RequestError: %s' % e
+        print 'bad youtube url: %s' % url
 say_title.rule = r'^(.*?)(https?://www.youtube.com/)([\w?=/&-]+)\b(.*)$'
 
 
