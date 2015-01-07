@@ -93,10 +93,12 @@ def link_catch(phenny, input):
     link = temp.split(' ')[0]
     urlGood = True
     title = ''
+    
     if not inBlackList(link):
+
         try:
             # creats url OBJ
-            url = urllib2.urlopen(link) # <<<<<<< this
+            url = urllib2.urlopen(link.replace('\'', '\\\'')) # <<<<<<< this
             
             # fetches link title
             title = getTitle(url)
@@ -112,9 +114,11 @@ def link_catch(phenny, input):
             else:
                 title = ''
             pass
+
         except:
             urlGood = False
             pass
+        
         finally:
             if urlGood:
                 # takes nick name from input obj
@@ -129,18 +133,19 @@ def link_catch(phenny, input):
                 # concats everything into a single string
                 post_title = title + post_time + ' by ' + nick
 
-                # for testing
+                # # for testing
                 # phenny.say(post_title) # says post string
                 # phenny.say(link)      # says actual link
                 
-                # this is the actuall posting. put error handling here
+                # # this is the actuall posting. put error handling here
                 try:
                     redditPOST(USER, PASS, user_agent, subreddit, post_title, link)
                 except:
                     pass
+
             else:
                 print 'failed: ' + link
-        
+
     else:
         print 'black: ' + link
 
