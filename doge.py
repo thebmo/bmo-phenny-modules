@@ -12,7 +12,7 @@ def doge(phenny, input):
     # go = True # for testing, makes doge go every text entry
 
     # doesn't execute if a link or go statement unsatisfied.
-    if 'http' not in s and go:
+    if 'http' not in s and '\x01' not in s and go:
         s = s.lower()
 
         # good NLTK tags to use
@@ -68,6 +68,7 @@ def doge(phenny, input):
                 phenny.say(d)
 
 doge.rule = r'^(.*?)(.+\b.+)$'
+doge.priority = 'high'
 # doge.commands = ['doge']
 
 if __name__ == '__main__': 
