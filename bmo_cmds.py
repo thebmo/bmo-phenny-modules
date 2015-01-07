@@ -12,7 +12,7 @@ dagon.rule = r'^(.*?)(\b[dD][aA][gG][oO][nN]\b)(.*)$'
 
 # VIOLATION
 def violation(phenny, input):
-    
+    # if not input.admin: return
     if len(str(input).split(' ')) > 2:
         phenny.say("VIOLATION!")
     else:
