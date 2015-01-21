@@ -1,12 +1,31 @@
 import random
 
 
+# links WTPA whiteboard
+def wtpa(phenny, input):
+    params = str(input.groups()[1]).lower()
+
+    if 'help' in params:
+        link = 'commands: drama, reddit'
+    elif 'drama' in params:
+        link = 'http://whiteboard.wherestheparty.at/wiki/Drama'
+    
+    elif 'reddit' in params:
+        link = 'http://www.reddit.com/r/wtpa'
+    
+    else:
+        link = 'http://whiteboard.wherestheparty.at/ use HELP for more options'
+    
+    phenny.say(link)   
+wtpa.commands = ['wtpa']
+wtpa.priority = 'medium'
+
+
 # DAGON BE PRAISED
 def dagon(phenny, input):
     if not input.admin: return
     
     phenny.say('DAGON BE PRAISED!!')
-
 dagon.rule = r'^(.*?)(\b[dD][aA][gG][oO][nN]\b)(.*)$'
 
 
@@ -25,6 +44,7 @@ def chan_join(phenny, input):
     
     #admins only!
     if not input.admin: return
+    
     channel = input.groups()[1]
     phenny.write(['JOIN'], channel)
 chan_join.commands = ['join']
@@ -39,16 +59,40 @@ def leave_chan(phenny,  input):
 leave_chan.commands = ['leave']
 leave_chan.priority = 'medium'
 
-# drama to diarrhea
+
+# # auto correct drama to diarrhea
 def diarrama(phenny, input):
     # g = input.nick + ": " + input.groups()[1]
     # phenny.say(g)
     phenny.say('%s: *diarrhea' % input.nick)
 diarrama.rule = r'^(.*?)(\b[dD][rR][aA][mM][aA]\b)(.*)$'
-    
+
+
+# tests for group(1) text
 def group_test(phenny, input):
+    # g = input.groups()[1]
+    # g = g.split(' ')
+    # phenny.say(g[1])
+    
     phenny.say(input.groups()[1])
 group_test.commands = ['gpt']
+
+
+# the help request
+def help(phenny, input):
+    # help list
+    available_cmds = '.wtpa .request .request_list' # .text .getnum'
+    
+    # more = 'for more info try: .help <command>'
+    more = 'Available Commands:'
+
+    params = input.groups()[1]
+    
+    # if params == None:
+    phenny.msg(input.nick, more)
+    phenny.msg(input.nick, available_cmds)
+help.commands = ['help']
+help.priority = 'medium'
 
 
 # maybe some day
@@ -63,20 +107,6 @@ group_test.commands = ['gpt']
     # phenny.say('Fredbot: *less')
 # fredbot_fewer.rule = r'^(.*?)(\bfewer\b)(.*)$'
 
-# help list
-available_cmds = '.request .request_list .text .getnum'
-more = 'for more info try: .help <command>'
 
-# the help request
-def help(phenny, input):
-    params = input.groups()[1]
-    
-    if params == None:
-        phenny.msg(input.nick, available_cmds)
-        phenny.msg(input.nick, more)
-help.commands = ['help']
-help.priority = 'medium'
-
-    
 if __name__ == '__main__': 
-   print __doc__.strip()
+    print __doc__.strip()
