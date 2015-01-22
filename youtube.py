@@ -64,7 +64,7 @@ def get_duration(duration):
     
 # main phenny call
 def say_title(phenny, input):
-    
+
     # opens the youtube service
     yt_service = gdata.youtube.service.YouTubeService()
 	
@@ -78,7 +78,7 @@ def say_title(phenny, input):
     
     # sets url to trailing part of youtube URL string
     url = input.groups()[2]
-    
+
     try:
         # catches embed ex. #1
         if re.search('embed/', url):
@@ -120,7 +120,8 @@ def say_title(phenny, input):
     except gdata.service.RequestError as e:
         print 'RequestError: %s' % e
         print 'bad youtube url: %s' % url
-say_title.rule = r'^(.*?)(https?://www.youtube.com/)([\w?=/&-]+)\b(.*)$'
+say_title.rule = r'^(.*?)(youtu.?be.*?/)([\w?=/&-]+)\b(.*)$'
+# say_title.rule = r'^(.*?)(https?://www.youtube.com/)([\w?=/&-]+)\b(.*)$'
 
 
 
