@@ -45,7 +45,9 @@ def search_log(phenny, input):
         if '404' in e:
             phenny.say('Too many searches, please wait a while')
         else:
-            print 'logs.py', e
+           e = str(e) + ' | Search must be 4 or more characters'
+           phenny.say(e)
+           
 
 search_log.commands = ['logs']
 search_log.priority = 'medium'
