@@ -1,30 +1,28 @@
 import os
 import vimeo
-import pprint
 
 
+# catches a vimeo link and spits back the title and duration
 def vimeo_title(phenny, input):
+    # API Variables
     access_token = os.environ['VIMEO_TOKEN']
     client_secret = os.environ['VIMEO_SECRET']
     api_key =  os.environ['VIMEO_API']
 
+    # Builds out the vidoe URI
     VID = input.groups()[2]
+    V_URI = ''.join(('/videos/', VID))
     
+    # Creates the client
     v = vimeo.VimeoClient(
         token=access_token,
         key=api_key,
         secret=client_secret)
 
+    # Finds the video
+    video = v.get(V_URI)        
 
-    # assert about_me.status_code == 200  # Make sure we got back a successful response.
-    # print about_me.json()   # Load the body's JSON data.
-    
-    V_URI = ''.join(('/videos/', VID))
-    video = v.get(V_URI)
-        
-    # p = pprint.PrettyPrinter()
-    # p.pprint(video.json())
-
+    # Creates and prints the title string
     duration = get_duration(video.json()['duration'])
     title = video.json()['name']
     full_title = "%s -%s" % (title, duration)
@@ -35,7 +33,7 @@ vimeo_title.rule = r'^(.*?)(vimeo.com?/)([\w?=/&-]+)\b(.*)$'
 
 # builds out the duration as a string
 # takes duration as int, returns as str [x:xx:xx]
-# taken from youtube
+# taken from youtube.py
 def get_duration(duration):
     
     # sets Hour, minute, remainder seconds
@@ -72,4 +70,3 @@ def get_duration(duration):
     
 if __name__ == '__main__':
    print __doc__.strip()
-   
