@@ -18,8 +18,9 @@ def vimeo_title(phenny, input):
 
     # assert about_me.status_code == 200  # Make sure we got back a successful response.
     # print about_me.json()   # Load the body's JSON data.
-
-    video = v.get('/videos/108018156')
+    
+    V_URI = ''.join(('/videos/', VID))
+    video = v.get(V_URI)
         
     # p = pprint.PrettyPrinter()
     # p.pprint(video.json())
