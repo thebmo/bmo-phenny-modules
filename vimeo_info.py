@@ -4,29 +4,35 @@ import vimeo
 
 # catches a vimeo link and spits back the title and duration
 def vimeo_title(phenny, input):
-    # API Variables
-    access_token = os.environ['VIMEO_TOKEN']
-    client_secret = os.environ['VIMEO_SECRET']
-    api_key =  os.environ['VIMEO_API']
-
-    # Builds out the vidoe URI
-    VID = input.groups()[2]
-    V_URI = ''.join(('/videos/', VID))
     
-    # Creates the client
-    v = vimeo.VimeoClient(
-        token=access_token,
-        key=api_key,
-        secret=client_secret)
+    try:
+        # API Variables
+        access_token = os.environ['VIMEO_TOKEN']
+        client_secret = os.environ['VIMEO_SECRET']
+        api_key =  os.environ['VIMEO_API']
 
-    # Finds the video
-    video = v.get(V_URI)        
+        # Builds out the vidoe URI
+        VID = input.groups()[2]
+        V_URI = ''.join(('/videos/', VID))
+        
+        # Creates the client
+        v = vimeo.VimeoClient(
+            token=access_token,
+            key=api_key,
+            secret=client_secret)
 
-    # Creates and prints the title string
-    duration = get_duration(video.json()['duration'])
-    title = video.json()['name']
-    full_title = "%s -%s" % (title, duration)
-    phenny.say(full_title)
+        # Finds the video
+        video = v.get(V_URI)        
+
+        # Creates and prints the title string
+        duration = get_duration(video.json()['duration'])
+        title = video.json()['name']
+        full_title = "%s -%s" % (title, duration)
+        phenny.say(full_title)
+    
+    except Exception as e:
+        print 'Vimeo Error: ', e
+        pass
 
 vimeo_title.rule = r'^(.*?)(vimeo.com?/)([\w?=/&-]+)\b(.*)$'
 
