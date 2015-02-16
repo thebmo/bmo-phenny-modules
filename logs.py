@@ -4,8 +4,11 @@ import urllib2
 from bs4 import BeautifulSoup
 from random import choice as rand
 
+class BadWord(Exception):
+    pass
 
 def search_log(phenny, input):
+    bad_words = { 'sex', 'fuck', 'dick' }
     q = str(input.groups()[1]).lower().replace(' ', '%20')
     
     LOGIN = os.environ['LOGS_UN']
@@ -55,6 +58,10 @@ def search_log(phenny, input):
 
     # eJohn Logs
     try:
+        
+        if q in bad_words:
+            raise BadWord('BAD WORD')
+        
         passman = urllib2.HTTPPasswordMgrWithDefaultRealm()
 
         passman.add_password(None, eurl, eLOGIN, ePWD)
@@ -71,8 +78,11 @@ def search_log(phenny, input):
         div_tag = soup.div
         div = div_tag.get_text().split('#wtpa ')
 
-        for d in div:
-            entries.append(d.strip('\n'))
+        entries+= div
+
+    except BadWord as e:
+        print e, '|' , q
+        pass
 
     except Exception as e:
         e_str = ''.join(('ejohn error | ', str(e)))
@@ -80,10 +90,19 @@ def search_log(phenny, input):
         print e_str
         pass
     
+    
     if not entries:
         phenny.say('Sorry no matches')
     else:
-        phenny.say(rand(entries))
+        try:
+            choice = rand(entries).strip('\n')
+            phenny.say(choice)
+        except:
+            error_str = 'Too many entries | ' + url 
+            phenny.say(error_str)
+            pass
+
+        # phenny.say(rand(entries))
 
 search_log.commands = ['logs']
 search_log.priority = 'medium'
