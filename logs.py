@@ -48,9 +48,9 @@ def search_log(phenny, input):
         if '404' in e:
             phenny.say('Too many searches, please wait a while')
         else:
-           e = str(e) + ' | Search must be 4 or more characters'
-           phenny.say(e)
-           return
+           e = str(e) + ' | Search must be 4 or more characters for butt log'
+           phenny.msg(input.nick, e)
+           # return
         pass
     # END JM3 logs
 
