@@ -1,27 +1,26 @@
 import base64
 import os
+import re
 import urllib2
 from bs4 import BeautifulSoup
 from random import choice as rand
 
-class BadWord(Exception):
-    pass
 
 def search_log(phenny, input):
-    bad_words = { 'sex', 'fuck', 'dick' }
     q = str(input.groups()[1]).lower().replace(' ', '%20')
     
+    # JMThree Log Creds
     LOGIN = os.environ['LOGS_UN']
     PWD = os.environ['LOGS_PW']
     URL = 'http://wtpa.jmthree.com/buttlog/?query='
     url = ''.join((URL, q))
     
+    # eJohn Log Creds
     eLOGIN = os.environ['eLOGS_UN']
     ePWD = os.environ['eLOGS_PW']  
     eURL = 'http://ejohn.org/wtpa/wtpa/logs/?q='
     eurl = ''.join((eURL, q))
-    
-    
+     
     entries = []
 
     if q == 'none' or q == ' ':
@@ -59,30 +58,20 @@ def search_log(phenny, input):
     # eJohn Logs
     try:
         
-        if q in bad_words:
-            raise BadWord('BAD WORD')
-        
         passman = urllib2.HTTPPasswordMgrWithDefaultRealm()
-
         passman.add_password(None, eurl, eLOGIN, ePWD)
         authhandler = urllib2.HTTPBasicAuthHandler(passman)
         opener = urllib2.build_opener(authhandler)
         urllib2.install_opener(opener)
         results = urllib2.urlopen(eurl)
 
+        html = results.read().replace('#wtpa', '').replace('<em>', ' ')
+        results.close()
+        
+        search_string = '<strong>.*<br/>'
+        matches = re.findall(search_string, html)
 
-        html = results.read().replace('<em>', ' ')
-
-        soup = BeautifulSoup(html)
-
-        div_tag = soup.div
-        div = div_tag.get_text().split('#wtpa ')
-
-        entries+= div
-
-    except BadWord as e:
-        print e, '|' , q
-        pass
+        entries+= matches
 
     except Exception as e:
         e_str = ''.join(('ejohn error | ', str(e)))
@@ -93,19 +82,19 @@ def search_log(phenny, input):
     
     if not entries:
         phenny.say('Sorry no matches')
+    
     else:
         try:
-            choice = rand(entries).strip('\n')
+            choice = BeautifulSoup(rand(entries).strip('\n')).get_text(' ', strip=True)
             phenny.say(choice)
         except:
             error_str = 'Too many entries | ' + url 
             phenny.say(error_str)
             pass
 
-        # phenny.say(rand(entries))
-
 search_log.commands = ['logs']
 search_log.priority = 'medium'
+
 
 if __name__ == '__main__': 
    print __doc__.strip()
