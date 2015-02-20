@@ -1,55 +1,100 @@
-# THIS IS BUILT FOR FRED ONLY AT TIME OF CREATION
-# SPECIFICALLY FOR SEX CLOCK
 import os
+import cPickle as pickle
 
 # grab the CWD of the bot and adjust to the module level
 CWD = os.getcwd()
 CWD += '\modules'
-FRED_FILE = os.path.join(CWD, 'fred.txt')
-FRED = ''
-
-# ******************************** #
-# storeFRED                        #
-# takes old nick, new nick to edit #
-# ******************************** #
-
-def storeFRED(oldnick, newnick):
-    with open(FRED_FILE) as F:
-        text = F.readlines()
-    with open(FRED_FILE, 'w') as F:
-        for entry in text:
-            print 'entry: ' + entry.strip()
-            if entry.strip() == oldnick:
-                F.write(newnick)
-            else:
-                F.write(entry)
-    print 'Fred change'
-
-def retrieveFRED():
-    with open(FRED_FILE) as F:
-        for line in F:
-            fred = line.strip()
-    return fred
+NAMES_FILE = os.path.join(CWD, 'names.p')
 
 
-# updates the phonebook on nick change
-def nick_update(phenny, input):
-    oldnick = ''
-    global FRED
-    if not FRED:
-        FRED = retrieveFRED()
+# Returns the names from the pickle file
+def load_names():
+    n = open(NAMES_FILE, 'rb') 
+    names = pickle.load(n)
+    n.close()
+    return names
+
+
+# Saves the users to the pickle file
+def store(user, names, newnick):
+    try:
+        names[user]['nick'] = newnick
+        n = open(NAMES_FILE, 'wb')
+        pickle.dump(names, n)
+        n.close()
+
+    except Exception as e:
+        print user, 'not in dict |', e
+        pass
+
+
+# Creates a reverse dict and returns a name key string
+def retrieve_name(oldnick, names):
+    rnames = {}
+    for k, v in names.items():
+        rnames[v['nick']] = k
+    
+    try:
+        name = rnames[oldnick]
+        return name
+
+    except Exception as e:
+        print 'nick tracker | nick not found:', e
+    
+
+# Catches a name change and updates the master list
+# Runs on automatic nick changes
+def nick_updater(phenny, input):
+    
+    names = load_names()
     
     temp = input.group().split(' ')
     oldnick = input.nick
     newnick = temp[-1]
-    print oldnick + " | " + newnick
-    if oldnick == FRED:
-        FRED = newnick
-        storeFRED(oldnick,newnick)
+    
+    user = retrieve_name(oldnick, names)
+    
+    store(user, names, newnick)
+    print user, '|', oldnick, '->', newnick
+   
     
 nick_update.event = 'NICK'
 nick_update.rule = r'.*'
 nick_update.priority = 'high'
+
+
+# Prints all names for testing purposees
+def print_names(phenny, input):
+    
+    names = load_names()
+    
+    for name in names:
+        p_name = ' | '.join((
+            name, 
+            names[name]['nick'], 
+            names[name]['num'], 
+            names[name]['email']
+            ))
+        phenny.msg(input.nick, p_name)
+
+print_names.commands = ['directory']
+
+
+# Test command to renturn info
+def fetch_name(phenny, input):
+    names = load_names()
+    nick = input.groups()[1]
+    nick = nick.split(' ')[0]
+    
+    user = retrieve_name(nick, names)
+    try:
+        name_info = ' | '.join((user, names[user]['nick'],  names[user]['num']))
+        phenny.say(name_info)
+    except Exception as e:
+        phenny.say('Nick not found.')
+        pass
+
+fetch_name.commands = ['name']
 
 if __name__ == '__main__': 
    print __doc__.strip()
