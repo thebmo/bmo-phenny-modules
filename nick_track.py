@@ -55,15 +55,13 @@ def nick_updater(phenny, input):
     user = retrieve_name(oldnick, names)
     
     store(user, names, newnick)
-    print user, '|', oldnick, '->', newnick
-   
-    
+    print user, '|', oldnick, '->', newnick    
 nick_update.event = 'NICK'
 nick_update.rule = r'.*'
 nick_update.priority = 'high'
 
 
-# Prints all names for testing purposees
+# Prints all names
 def print_names(phenny, input):
     
     names = load_names()
@@ -76,11 +74,11 @@ def print_names(phenny, input):
             names[name]['email']
             ))
         phenny.msg(input.nick, p_name)
-
 print_names.commands = ['directory']
 
 
-# Test command to renturn info
+# Nick/Name fetcher
+# Accepts a user nick and returns their info only
 def fetch_name(phenny, input):
     names = load_names()
     nick = input.groups()[1]
@@ -88,13 +86,16 @@ def fetch_name(phenny, input):
     
     user = retrieve_name(nick, names)
     try:
-        name_info = ' | '.join((user, names[user]['nick'],  names[user]['num']))
+        name_info = ' | '.join((user, names[user]['nick'],  names[user]['num'], names[user]['email']))
         phenny.say(name_info)
     except Exception as e:
         phenny.say('Nick not found.')
         pass
-
 fetch_name.commands = ['name']
+
+# def add_name(phenny, input):
+# def update_name(phenny, input):
+
 
 if __name__ == '__main__': 
    print __doc__.strip()
