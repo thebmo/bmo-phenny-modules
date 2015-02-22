@@ -100,12 +100,17 @@ def fetch_name(phenny, input):
 fetch_name.commands = ['name']
 
 
-# Add an entry
+# Add an entry to the pickle file
+# name nick num email
 def add_name(phenny, input):
     
     if not input.admin: return
-    
-    params = input.groups()[1].split(' ')
+    try:
+        params = input.groups()[1].split(' ')
+    except:
+        print 'No Params| name nick num email'
+        return
+
     if not params or len(params) < 4:
         phenny.msg(input.nick, 'bad params| name nick num email')
         return
@@ -113,7 +118,32 @@ def add_name(phenny, input):
     names = load_names()
     names[params[0]] = { 'nick': params[1], 'num': params[2], 'email': params[3] }
     store(names)
+    p_confirm = 'Added %s' % names[params[0]]
+    phenny.msg(input.nick, p_confirm)
 add_name.commands = ['add_name']
+    
+
+# Deletes the user from the pickle file
+# Takes nick as argument and 
+def delete_name(phenny, input):
+    if not input.admin: return
+    
+    try:
+        nick = input.groups()[1].split(' ')[0]
+        names = load_names()
+        name = retrieve_name(nick, names)
+        del names[name]
+        store(names)
+        p_confirm = 'Deleted %s' % nick
+        phenny.msg(input.nick, p_confirm)
+
+    except Exception as e:
+        p_error = 'Could not delete %s' % nick
+        phenny.msg(input.nick, p_error)
+        print e, p_error
+        pass
+delete_name.commands = ['delete_name']
+    
     
     
 
