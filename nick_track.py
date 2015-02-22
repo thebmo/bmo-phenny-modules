@@ -16,16 +16,22 @@ def load_names():
 
 
 # Saves the users to the pickle file
-def store(user, names, newnick):
-    try:
-        names[user]['nick'] = newnick
-        n = open(NAMES_FILE, 'wb')
-        pickle.dump(names, n)
-        n.close()
+def store(names, nick='', user='' ):
+    
+    # If user is specified updates user nick
+    if user:
+        try:
+            names[user]['nick'] = nick
 
-    except Exception as e:
-        print user, 'not in dict |', e
-        pass
+        except Exception as e:
+            print user, 'not in dict |', e
+            pass
+    
+    # Saves the dict to pickle file
+    n = open(NAMES_FILE, 'wb')
+    pickle.dump(names, n)
+    n.close()
+        
 
 
 # Creates a reverse dict and returns a name key string
@@ -54,11 +60,11 @@ def nick_updater(phenny, input):
     
     user = retrieve_name(oldnick, names)
     
-    store(user, names, newnick)
+    store(names, newnick, user)
     print user, '|', oldnick, '->', newnick    
-nick_update.event = 'NICK'
-nick_update.rule = r'.*'
-nick_update.priority = 'high'
+nick_updater.event = 'NICK'
+nick_updater.rule = r'.*'
+nick_updater.priority = 'high'
 
 
 # Prints all names
@@ -87,13 +93,30 @@ def fetch_name(phenny, input):
     user = retrieve_name(nick, names)
     try:
         name_info = ' | '.join((user, names[user]['nick'],  names[user]['num'], names[user]['email']))
-        phenny.say(name_info)
+        phenny.msg(input.nick, name_info)
     except Exception as e:
-        phenny.say('Nick not found.')
+        phenny.msg(input.nick, 'Nick not found.')
         pass
 fetch_name.commands = ['name']
 
-# def add_name(phenny, input):
+
+# Add an entry
+def add_name(phenny, input):
+    
+    if not input.admin: return
+    
+    params = input.groups()[1].split(' ')
+    if not params or len(params) < 4:
+        phenny.msg(input.nick, 'bad params| name nick num email')
+        return
+    
+    names = load_names()
+    names[params[0]] = { 'nick': params[1], 'num': params[2], 'email': params[3] }
+    store(names)
+add_name.commands = ['add_name']
+    
+    
+
 # def update_name(phenny, input):
 
 
