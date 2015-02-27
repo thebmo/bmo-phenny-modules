@@ -53,8 +53,9 @@ def urban_search(original_search):
     else:
         if match:
             temp = ''
-            temp = str(reformat(match.group(1)))
-            full_def = original_search + ": " + temp
+            temp = str(reformat(match.group(1))).replace('[', '').replace(']', '')
+            full_def = ": ".join((original_search, temp))
+            
             return full_def
 
         else:
