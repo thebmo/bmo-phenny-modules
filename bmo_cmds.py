@@ -1,6 +1,15 @@
 import random
 
 
+# Links: Too many cooks video if regex catches a similar phrase
+def too_many_cooks(phenny, input):
+    TOO = input.groups()[1].upper()
+    MANY = 'https://youtu.be/QrGrOK8oZG8'
+    COOKS = ' | '.join((TOO, MANY))
+    phenny.say(COOKS)
+too_many_cooks.rule = r'^(.*?)(\b(?i)too.many.+ks\b)(.*)$'
+
+
 # links WTPA whiteboard
 def wtpa(phenny, input):
     params = str(input.groups()[1]).lower()
