@@ -16,7 +16,7 @@ def load_names():
 
 
 # Saves the users to the pickle file
-def store(names, nick='', user='' ):
+def store_name(names, nick='', user='' ):
     
     # If user is specified updates user nick
     if user:
@@ -60,7 +60,7 @@ def nick_updater(phenny, input):
     
     user = retrieve_name(oldnick, names)
     
-    store(names, newnick, user)
+    store_name(names, newnick, user)
     print user, '|', oldnick, '->', newnick    
 nick_updater.event = 'NICK'
 nick_updater.rule = r'.*'
@@ -117,14 +117,14 @@ def add_name(phenny, input):
     
     names = load_names()
     names[params[0]] = { 'nick': params[1], 'num': params[2], 'email': params[3] }
-    store(names)
+    store_name(names)
     p_confirm = 'Added %s' % names[params[0]]
     phenny.msg(input.nick, p_confirm)
 add_name.commands = ['add_name']
     
 
 # Deletes the user from the pickle file
-# Takes nick as argument and 
+# Takes nick as argument  
 def delete_name(phenny, input):
     if not input.admin: return
     
@@ -133,7 +133,7 @@ def delete_name(phenny, input):
         names = load_names()
         name = retrieve_name(nick, names)
         del names[name]
-        store(names)
+        store_name(names)
         p_confirm = 'Deleted %s' % nick
         phenny.msg(input.nick, p_confirm)
 
@@ -144,11 +144,35 @@ def delete_name(phenny, input):
         pass
 delete_name.commands = ['delete_name']
     
+
+# Updates a user's info
+# Requires name=NAME to be first followd by any additional kwargs
+# USAGE:
+#   .update_name name=NAME nick=NICK ...
+def update_name(phenny, input):
+    if not input.admin: return
+    try:
+        params = input.groups()[1].split(' ')
+        print params
+    except:
+        print 'No Params| name=NAME nick=NICK num=NUM email=EMAIL'
+        return
     
     
-
-# def update_name(phenny, input):
-
+    if 'name=' in params[0]:
+        names = load_names()
+        k = params.pop(0).split('=')[1]
+        
+        for param in params:
+            if '=' in param:
+                p_key, p_val = param.split('=')
+                names[k][p_key] = p_val
+        
+        store_name(names)
+    else:
+        update_error = 'No Params| name=NAME nick=NICK num=NUM email=EMAIL'
+        phenny.msg(input.nick, update_error)
+update_name.commands = ['update_name']
 
 if __name__ == '__main__': 
    print __doc__.strip()
