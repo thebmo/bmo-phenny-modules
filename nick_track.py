@@ -159,12 +159,12 @@ def update_name(phenny, input):
         return
     
     
-    if 'name=' in params[0]:
+    if 'name=' in params[0] and params[0].count('=') == 1:
         names = load_names()
         k = params.pop(0).split('=')[1]
         
         for param in params:
-            if '=' in param:
+            if param.count('=') == 1:
                 p_key, p_val = param.split('=')
                 names[k][p_key] = p_val
         
