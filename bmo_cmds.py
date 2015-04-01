@@ -4,8 +4,14 @@ import random
 # Chooses a random item from the input
 # Pipe Seperated
 def choose_one(phenny, input):
-    choices = input.groups()[1].split('|')
-    phenny.say(random.choice(choices))
+    choices = input.groups()[1]
+    if choices.count(' or ') == 1:
+        choices = choices.split(' or ')
+    else:
+        choices = choices.split('|')
+    
+    if len(choices) > 1:
+        phenny.say(random.choice(choices))
 choose_one.commands = ['choose']
 
 # Links: Too many cooks video if regex catches a similar phrase
