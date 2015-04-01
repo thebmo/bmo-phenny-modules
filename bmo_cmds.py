@@ -1,6 +1,13 @@
 import random
 
 
+# Responds with You're right
+def urite(phenny, input):
+    rite = ''.join((input.nick, ':', ' urite!'))
+    phenny.say(rite)
+urite.rule = r'^(.*?)(\b(?i)amirite\b)(.*)$'
+
+
 # Chooses a random item from the input
 # Pipe Seperated
 def choose_one(phenny, input):
