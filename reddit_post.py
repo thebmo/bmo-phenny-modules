@@ -1,4 +1,4 @@
-import re, praw, webbrowser, urllib2
+import re, praw, webbrowser, urllib2, sys
 from urlparse import urlparse
 from datetime import datetime
 from bs4 import BeautifulSoup
@@ -52,12 +52,13 @@ def refresh_access(r):
 
 
 # fetches and returns the links title
-def getTitle(url):
-    # link = urllib2.urlopen(url)
-    html = url.read()
+def getTitle(html):
     soup = BeautifulSoup(html)
+    
     try:
-        title = soup.title.string
+        title = soup.title.get_text()
+        encoding = sys.stdout.encoding
+        title = title.encode(encoding, 'ignore')
     except:
         title = 'No title'
     
@@ -65,7 +66,7 @@ def getTitle(url):
     if 'Gyazo' in title:
         title = 'Gayzo!'
     
-    return str(title.strip() + ' | ')  #<<<<<<<<<<<< added str encoding. maybe this will remove those errors
+    return title.strip() + ' | '
 
     
 # Posts the params to /r/wtpa
@@ -93,21 +94,24 @@ def link_catch(phenny, input):
     link = temp.split(' ')[0]
     urlGood = True
     title = ''
-    
+
     if not inBlackList(link):
 
         try:
             # creats url OBJ
-            url = urllib2.urlopen(link.replace('\'', '\\\'')) # <<<<<<< this
+            # url = urllib2.urlopen(link.replace('\'', '\\\'')) # <<<<<<< this
+            response = urllib2.urlopen(link)
+            html = response.read()
+            response.close()
             
             # fetches link title
-            title = getTitle(url)
+            title = getTitle(html)
             
             # # for testing
             # phenny.say(post_title) # says post string
             # phenny.say(link)      # says actual link
         
-        except  urllib2.HTTPError as e:
+        except urllib2.HTTPError as e:
             if e.code == 403:
                 scheme, netloc, path, params, query, fragment = urlparse(link)
                 title = netloc + ' | '
@@ -115,7 +119,8 @@ def link_catch(phenny, input):
                 title = ''
             pass
 
-        except:
+        except exception as e:
+            print e, '|', link
             urlGood = False
             pass
         
