@@ -1,16 +1,18 @@
+import sys
+
 phrases = {
     'first': ('', ''),
     'second': ('', ''),
     'last': ('', ''),
     }
-
+encoding = sys.stdout.encoding
 
 # Repeats the input string if 3 other peaople have said it in a row
 def fred_repeat(phenny, input):
     global phrases
     
-    text = str(input.groups()[1])
-    
+    text = input.groups()[1]
+    text = text.encode(encoding, 'ignore')
     phrases['first'] = phrases['second']
     phrases['second'] = phrases['last']
     phrases['last'] = (input.nick, text)
