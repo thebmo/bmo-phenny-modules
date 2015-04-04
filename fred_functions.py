@@ -21,6 +21,13 @@ def fred_repeat(phenny, input):
         if phrases['first'][0] != phrases['last'][0] and phrases['first'][1] == phrases['last'][1]:
             p = phrases['last'][1]
             phenny.say(p)
+            
+            # Resets the dict
+            phrases = {
+                'first': ('', ''),
+                'second': ('', ''),
+                'last': ('', ''),
+                }
 fred_repeat.rule = r'^(.*?)(.*)'
 
 
