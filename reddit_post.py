@@ -1,8 +1,10 @@
 import re, praw, webbrowser, urllib2, sys
+import requests
 from urlparse import urlparse
 from datetime import datetime
 from bs4 import BeautifulSoup
 from modules.reddit.Reddit_Creds import RedditCreds
+
 
 # *******
 # GLOBALS
@@ -31,6 +33,16 @@ user_agent = creds.user_agent
 # *********
 # FUNCTIONS
 # *********
+def fetch_html(link):
+    try:
+        response = requests.get(link)
+        html_text = response.text
+    except Exception as e:
+        print e
+    return html_text
+    
+
+
 # checks if link is in blacklist / returns bool
 def inBlackList(link):
     in_list = False
@@ -46,7 +58,7 @@ def getAuthToken(r):
     webbrowser.open(url)
 
 
-# refresshes AuthToken
+# Refreshes AuthToken
 def refresh_access(r):
     r.refresh_access_information(access_information['refresh_token'])
 
@@ -98,11 +110,15 @@ def link_catch(phenny, input):
     if not inBlackList(link):
 
         try:
-            # creats url OBJ
-            # url = urllib2.urlopen(link.replace('\'', '\\\'')) # <<<<<<< this
-            response = urllib2.urlopen(link)
-            html = response.read()
-            response.close()
+            
+            # # # OLD URLLIB2 METHOD
+            # # creats url OBJ
+            # # url = urllib2.urlopen(link.replace('\'', '\\\'')) # <<<<<<< this
+            # response = urllib2.urlopen(link)
+            # html = response.read()
+            # response.close()
+            
+            html = fetch_html(link)
             
             # fetches link title
             title = getTitle(html)
