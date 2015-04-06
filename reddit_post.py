@@ -15,6 +15,14 @@ USER = creds.USER
 PASS = creds.PASS
 BLACK_LIST = creds.BLACK_LIST
 
+MEDIA = {
+    'jpg',
+    'jpeg',
+    'mov',
+    'png',
+    'gif',
+    }
+
 # # reddit API key
 # api_key = creds.api_key
 
@@ -37,11 +45,15 @@ def fetch_html(link):
     try:
         response = requests.get(link)
         html_text = response.text
+        
+        if type(html_text) == 'unicode':
+            html_text = html_text.encode('ascii', 'ignore')
+    
     except Exception as e:
         print e
+    
     return html_text
     
-
 
 # checks if link is in blacklist / returns bool
 def inBlackList(link):
@@ -69,8 +81,9 @@ def getTitle(html):
     
     try:
         title = soup.title.get_text()
-        encoding = sys.stdout.encoding
-        title = title.encode(encoding, 'ignore')
+        # encoding = sys.stdout.encoding
+        # title = title.encode(encoding, 'ignore')
+        title = title.encode('ascii', 'ignore')
     except:
         title = 'No title'
     
@@ -111,37 +124,35 @@ def link_catch(phenny, input):
 
         try:
             
-            # # # OLD URLLIB2 METHOD
-            # # creats url OBJ
-            # # url = urllib2.urlopen(link.replace('\'', '\\\'')) # <<<<<<< this
-            # response = urllib2.urlopen(link)
-            # html = response.read()
-            # response.close()
+            link_extension = urlparse(link).path.split('.')[-1]
             
-            html = fetch_html(link)
+            if link_extension not in MEDIA:
+                
+                # Fetches the HTML text
+                html = fetch_html(link)
+                
+                # Pulls the links title from HTML
+                title = getTitle(html)
             
-            # fetches link title
-            title = getTitle(html)
+            if title == 'No Title | ' or title == '':
+                net_loc = urlparse(link).netloc
+                if net_loc.count('.') > 1:
+                    title = net_loc.split('.', 1)[1]
+                else:
+                    title = net_loc
+                
+                title += ' | '
             
-            # # for testing
-            # phenny.say(post_title) # says post string
-            # phenny.say(link)      # says actual link
-        
-        except urllib2.HTTPError as e:
-            if e.code == 403:
-                scheme, netloc, path, params, query, fragment = urlparse(link)
-                title = netloc + ' | '
-            else:
-                title = ''
-            pass
 
-        except exception as e:
+        except Exception as e:
             print e, '|', link
             urlGood = False
             pass
         
         finally:
+            
             if urlGood:
+
                 # takes nick name from input obj
                 nick = input.nick
                             
