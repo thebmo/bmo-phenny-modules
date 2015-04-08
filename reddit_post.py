@@ -46,7 +46,7 @@ def fetch_html(link):
         response = requests.get(link)
         html_text = response.text
         
-        if type(html_text) == 'unicode':
+        if type(html_text) == unicode:
             html_text = html_text.encode('ascii', 'ignore')
     
     except Exception as e:
@@ -77,6 +77,7 @@ def refresh_access(r):
 
 # fetches and returns the links title
 def getTitle(html):
+    html = html.encode('ascii', 'ignore')
     soup = BeautifulSoup(html)
     
     try:
@@ -173,6 +174,7 @@ def link_catch(phenny, input):
                 try:
                     redditPOST(USER, PASS, user_agent, subreddit, post_title, link)
                 except:
+                    print 'POST FAIL'
                     pass
 
             else:
