@@ -1,6 +1,27 @@
 import random
 
 
+# SO >> VIOLATION
+# Yells at people that start a line with
+# any varyation of "so"
+def sov(phenny, input):
+    
+    if not input.admin:
+        punc = { ',', ':', ';', '\'', '!', '?', '.' }
+        words = input.groups()[1].lower()
+
+        first_word = words.split(' ')[0]
+        
+        for p in punc:
+            first_word = first_word.replace(p, '')
+        
+        if first_word == 'so':
+            phenny.say("VIOLATION!")
+        
+sov.rule = r'^(.*?)(^(?i)so.*)(.*)$'
+sov.priority = 'medium'
+
+
 # Responds with You're right
 def urite(phenny, input):
     rite = ''.join((input.nick, ':', ' urite!'))
