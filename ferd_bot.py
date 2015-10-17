@@ -3,7 +3,7 @@
     https://gist.github.com/agiliq/131679
     Alterations are in the generate_markov_text() method
     allowing for manual seeding as well as "proper" use
-    of capitalization and punction.
+    of capitalization and punctuation.
 """
 import os
 import random

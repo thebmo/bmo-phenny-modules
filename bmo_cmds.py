@@ -2,11 +2,11 @@ import random
 
 
 # SO >> VIOLATION
-# Yells at people that start a line with
+# Yells at lauren when she starts a line with
 # any varyation of "so"
 def sov(phenny, input):
     
-    if not input.admin:
+    if input.nick == 'lauren':
         punc = { ',', ':', ';', '\'', '!', '?', '.' }
         words = input.groups()[1].lower()
 
@@ -79,14 +79,14 @@ def dagon(phenny, input):
 dagon.rule = r'^(.*?)(\b[dD][aA][gG][oO][nN]\b)(.*)$'
 
 
-# VIOLATION
-def violation(phenny, input):
-    # if not input.admin: return
-    if 'http' in str(input) or len(str(input).split(' ')) > 2:
-        phenny.say("VIOLATION!")
-    else:
-        phenny.say(input)
-violation.rule = r'^(.*?)([vV][iI][oO][lL][aA][tT][iI][oO][nN])(.*)$'
+# # VIOLATION
+# def violation(phenny, input):
+    # # if not input.admin: return
+    # if 'http' in str(input) or len(str(input).split(' ')) > 2:
+        # phenny.say("VIOLATION!")
+    # else:
+        # phenny.say(input)
+# violation.rule = r'^(.*?)([vV][iI][oO][lL][aA][tT][iI][oO][nN])(.*)$'
 
 
 # joins a channel

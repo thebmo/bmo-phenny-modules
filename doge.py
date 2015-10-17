@@ -1,10 +1,12 @@
 import random
 import nltk
+import datetime
 
 # says a doge into channel if input is not a link and
 # a random number is met. A % of the time
 def doge(phenny, input):
-
+    # Kill if not a Thursday
+    if datetime.date.today().weekday() != 3: return
     s = input.groups()[1]
 
     # if 'http' not in s and ':' not in s:
