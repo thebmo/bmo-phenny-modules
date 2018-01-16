@@ -49,10 +49,11 @@ def fetch_html(link):
         if type(html_text) == unicode:
             html_text = html_text.encode('ascii', 'ignore')
     
+        return html_text
     except Exception as e:
         print e
     
-    return html_text
+    return
     
 
 # checks if link is in blacklist / returns bool

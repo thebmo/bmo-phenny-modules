@@ -22,7 +22,7 @@ def doge(phenny, input):
 
         # exception words to leave out
         bad_words = ['be', 'been', 'being', 'their', 'theirs', 'everything']
-        
+
         # doge phrases to be selected by random below
         doges = ['many', 'much', 'such', 'so', 'no']
 
@@ -38,7 +38,7 @@ def doge(phenny, input):
 
         # proceeds only if there are sufficient words
         if len(words) > 1:
-            
+
             # picks the 2 doge terms
             d1 = random.choice(doges)
             doges.remove(d1)
@@ -73,5 +73,5 @@ doge.rule = r'^(.*?)(.+\b.+)$'
 doge.priority = 'high'
 # doge.commands = ['doge']
 
-if __name__ == '__main__': 
+if __name__ == '__main__':
    print __doc__.strip()
