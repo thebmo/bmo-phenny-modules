@@ -1,4 +1,5 @@
 import random
+import time
 
 
 # # juju always remembers
@@ -8,8 +9,13 @@ import random
 
 # juju says wow some times
 def wow(phenny, input):
-    wow = 'wow... | https://youtu.be/KlLMlJ2tDkg'
-    phenny.say(wow)
+    random.seed(time.time())
+    rand = random.randint(0, 500)
+    print rand
+    
+    if (rand > 450) and (rand % 2 == 0):
+    	wow = 'wow... | https://youtu.be/KlLMlJ2tDkg'
+    	phenny.say(wow)
 wow.rule = r'^(.*?)(\b(?i)wow\b)(.*)$'
 
 # responds to oh jeez
