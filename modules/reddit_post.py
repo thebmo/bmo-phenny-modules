@@ -1,4 +1,4 @@
-import re, praw, webbrowser, urllib2, sys
+import os, re, praw, webbrowser, urllib2, sys
 import requests
 from urlparse import urlparse
 from datetime import datetime
@@ -44,6 +44,15 @@ MEDIA = {
 # client_id = os.environ['REDDIT_CLIENT_ID']
 # redirect_uri = os.environ['REDDIT_REDIRECT_URI']
 # END TESTING CONFIGS
+
+
+#def check(phenny, input):
+#    print "user: " + USER
+#    print "pass: " + PASS
+#    print "agent: " + user_agent
+#    print "subreddit: " + subreddit
+#    phenny.say("PING!")
+#check.commands = ['poop']
 
 
 # *********
