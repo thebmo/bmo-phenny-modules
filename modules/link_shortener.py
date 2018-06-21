@@ -1,5 +1,5 @@
-import requests
 import json
+import requests
 import os
     
 # Shortens a link via the google link shortener api
@@ -17,9 +17,12 @@ def link_shortener(phenny, input):
     headers = {'content-type': 'application/json' }
     
     response = requests.post(post_url,data=json.dumps(resource), headers=headers)
-    short_link = json.loads(response.text)['id']
-
-    phenny.say(short_link)
+    try:
+        short_link = str(response.json()['id'])
+        phenny.say(short_link)
+    except Exception as e:
+        error_msg = "{}: {}".format(e.__class__, e)
+        phenny.say("ARF!")
 
 link_shortener.rule = r'^(.*?)(https?://.+)\b(.*)$'
 

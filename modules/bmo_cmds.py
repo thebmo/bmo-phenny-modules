@@ -153,7 +153,7 @@ def diarrama(phenny, input):
     # g = input.nick + ": " + input.groups()[1]
     # phenny.say(g)
     phenny.say('%s: *diarrhea' % input.nick)
-diarrama.rule = r'^(.*?)(\b[dD][rR][aA][mM][aA]\b)(.*)$'
+diarrama.rule = r'^(.*?)(\b(?i)drama\b)(.*)$'
 
 
 # tests for group(1) text
