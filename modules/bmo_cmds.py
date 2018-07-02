@@ -1,4 +1,5 @@
 import random
+import re
 import time
 
 
@@ -43,8 +44,7 @@ dennis.rule = r'^(.*?)(\b[dD][eE][nN][nN][iI][sS]\b)(.*)$'
 # Yells at lauren when she starts a line with
 # any varyation of "so"
 def sov(phenny, input):
-
-    if input.nick == 'lauren':
+    if re.match(r'(?i)lauren', input.nick):
         punc = { ',', ':', ';', '\'', '!', '?', '.' }
         words = input.groups()[1].lower()
 
